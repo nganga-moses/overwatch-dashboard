@@ -3,7 +3,8 @@ import { useAuth } from '../contexts/AuthContext';
 import { Building2, LogOut, Monitor, Users, UserCog } from 'lucide-react';
 
 export default function Layout() {
-  const { signOut, user } = useAuth();
+  const { signOut, user, profile } = useAuth();
+  const isPlatformAdmin = profile?.role === 'platform_admin';
 
   const linkClass = ({ isActive }: { isActive: boolean }) =>
     `flex items-center gap-2 px-3 py-2 rounded text-sm transition ${
@@ -21,14 +22,18 @@ export default function Layout() {
         </div>
 
         <nav className="flex-1 p-3 space-y-1">
-          <NavLink to="/customers" className={linkClass}>
-            <Building2 className="w-4 h-4" />
-            Customers
-          </NavLink>
-          <NavLink to="/dashboard-users" className={linkClass}>
-            <UserCog className="w-4 h-4" />
-            Dashboard Users
-          </NavLink>
+          {isPlatformAdmin && (
+            <>
+              <NavLink to="/customers" className={linkClass}>
+                <Building2 className="w-4 h-4" />
+                Customers
+              </NavLink>
+              <NavLink to="/dashboard-users" className={linkClass}>
+                <UserCog className="w-4 h-4" />
+                Dashboard Users
+              </NavLink>
+            </>
+          )}
           <NavLink to="/operators" className={linkClass}>
             <Users className="w-4 h-4" />
             Operators
@@ -40,7 +45,18 @@ export default function Layout() {
         </nav>
 
         <div className="p-3 border-t border-ow-border">
-          <div className="text-xs text-ow-text-dim mb-2 truncate">{user?.email}</div>
+          <div className="text-xs text-ow-text-dim mb-1 truncate">{user?.email}</div>
+          {profile && (
+            <div className="mb-2">
+              <span className={`text-[10px] px-1.5 py-0.5 rounded ${
+                profile.role === 'platform_admin'
+                  ? 'bg-ow-info/20 text-ow-info'
+                  : 'bg-ow-accent-bg text-ow-accent'
+              }`}>
+                {profile.role === 'platform_admin' ? 'Platform Admin' : 'Admin'}
+              </span>
+            </div>
+          )}
           <button
             onClick={signOut}
             className="flex items-center gap-2 text-sm text-ow-text-muted hover:text-ow-danger transition w-full"

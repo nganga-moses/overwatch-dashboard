@@ -2,6 +2,8 @@ import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-route
 import { Loader2 } from 'lucide-react';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
 import LoginView from './views/LoginView';
+import SignUpView from './views/SignUpView';
+import NoAccessView from './views/NoAccessView';
 import Layout from './components/Layout';
 import CustomersView from './views/CustomersView';
 import DashboardUsersView from './views/DashboardUsersView';
@@ -9,7 +11,7 @@ import OperatorsView from './views/OperatorsView';
 import WorkstationsView from './views/WorkstationsView';
 
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
-  const { user, loading } = useAuth();
+  const { user, profile, loading } = useAuth();
 
   if (loading) {
     return (
@@ -21,6 +23,10 @@ function ProtectedRoute({ children }: { children: React.ReactNode }) {
 
   if (!user) {
     return <Navigate to="/login" replace />;
+  }
+
+  if (!profile || profile.role === 'user') {
+    return <NoAccessView />;
   }
 
   return <>{children}</>;
@@ -38,13 +44,14 @@ function AppRouter() {
     );
   }
 
-  if (user && location.pathname === '/login') {
+  if (user && (location.pathname === '/login' || location.pathname === '/signup')) {
     return <Navigate to="/" replace />;
   }
 
   return (
     <Routes>
       <Route path="/login" element={<LoginView />} />
+      <Route path="/signup" element={<SignUpView />} />
       <Route
         element={
           <ProtectedRoute>
