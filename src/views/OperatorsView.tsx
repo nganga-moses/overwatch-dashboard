@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { apiGet, apiPost, apiPatch, apiDelete } from '../lib/api';
+import { apiClient } from '../lib/api';
 import { Plus, Users, Pencil, Trash2 } from 'lucide-react';
 
 interface Operator {
@@ -21,7 +21,7 @@ export default function OperatorsView() {
   async function load() {
     setLoading(true);
     try {
-      setOperators(await apiGet('/auth/operators'));
+      setOperators(await apiClient.get('/auth/operators'));
     } finally {
       setLoading(false);
     }
@@ -50,9 +50,9 @@ export default function OperatorsView() {
       if (editId) {
         const body: Record<string, unknown> = { name: form.name, role: form.role };
         if (form.pin) body.pin = form.pin;
-        await apiPatch(`/auth/operators/${editId}`, body);
+        await apiClient.patch(`/auth/operators/${editId}`, body);
       } else {
-        await apiPost('/auth/operators', form);
+        await apiClient.post('/auth/operators', form);
       }
       setShowForm(false);
       load();
@@ -63,7 +63,7 @@ export default function OperatorsView() {
 
   async function handleDeactivate(id: string) {
     if (!confirm('Deactivate this operator?')) return;
-    await apiDelete(`/auth/operators/${id}`);
+    await apiClient.delete(`/auth/operators/${id}`);
     load();
   }
 

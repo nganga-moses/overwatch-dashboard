@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { apiGet, apiPost } from '../lib/api';
+import { apiClient } from '../lib/api';
 import { Plus, Building2, Copy, Check } from 'lucide-react';
 
 interface Customer {
@@ -22,7 +22,7 @@ export default function CustomersView() {
   async function load() {
     setLoading(true);
     try {
-      setCustomers(await apiGet('/admin/customers'));
+      setCustomers(await apiClient.get('/admin/customers'));
     } finally {
       setLoading(false);
     }
@@ -34,7 +34,7 @@ export default function CustomersView() {
     e.preventDefault();
     setError('');
     try {
-      const result = await apiPost<{ customer_id: string; name: string; api_key: string }>(
+      const result = await apiClient.post<{ customer_id: string; name: string; api_key: string }>(
         '/admin/customers',
         form,
       );

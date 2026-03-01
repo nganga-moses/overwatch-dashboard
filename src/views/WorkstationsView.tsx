@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { apiGet, apiPost } from '../lib/api';
+import { apiClient } from '../lib/api';
 import { Monitor, Key, Copy, Check } from 'lucide-react';
 
 interface WorkstationItem {
@@ -24,7 +24,7 @@ export default function WorkstationsView() {
   async function load() {
     setLoading(true);
     try {
-      setWorkstations(await apiGet('/workstations'));
+      setWorkstations(await apiClient.get('/workstations'));
     } finally {
       setLoading(false);
     }
@@ -35,7 +35,7 @@ export default function WorkstationsView() {
   async function generateCode() {
     setError('');
     try {
-      const result = await apiPost<{ code: string; expires_at: string }>('/auth/activation-codes');
+      const result = await apiClient.post<{ code: string; expires_at: string }>('/auth/activation-codes');
       setActivationCode(result.code);
       setExpiresAt(result.expires_at);
       setShowCode(true);

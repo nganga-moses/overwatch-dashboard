@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { apiGet, apiPost } from '../lib/api';
+import { apiClient } from '../lib/api';
 import { Plus, UserCog } from 'lucide-react';
 
 interface DashboardUser {
@@ -28,8 +28,8 @@ export default function DashboardUsersView() {
     setLoading(true);
     try {
       const [u, c] = await Promise.all([
-        apiGet<DashboardUser[]>('/admin/dashboard-users'),
-        apiGet<Customer[]>('/admin/customers'),
+        apiClient.get<DashboardUser[]>('/admin/dashboard-users'),
+        apiClient.get<Customer[]>('/admin/customers'),
       ]);
       setUsers(u);
       setCustomers(c);
@@ -44,7 +44,7 @@ export default function DashboardUsersView() {
     e.preventDefault();
     setError('');
     try {
-      await apiPost('/admin/dashboard-users', {
+      await apiClient.post('/admin/dashboard-users', {
         ...form,
         customer_id: form.customer_id || null,
       });
