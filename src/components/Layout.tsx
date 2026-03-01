@@ -1,10 +1,9 @@
 import { NavLink, Outlet } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
-import { Building2, LogOut, Monitor, Shield, Users, UserCog } from 'lucide-react';
+import { Building2, LogOut, Monitor, Users, UserCog } from 'lucide-react';
 
 export default function Layout() {
-  const { profile, signOut, user } = useAuth();
-  const isPlatformAdmin = profile?.role === 'platform_admin';
+  const { signOut, user } = useAuth();
 
   const linkClass = ({ isActive }: { isActive: boolean }) =>
     `flex items-center gap-2 px-3 py-2 rounded text-sm transition ${
@@ -18,23 +17,19 @@ export default function Layout() {
       {/* Sidebar */}
       <aside className="w-56 bg-ow-surface border-r border-ow-border flex flex-col">
         <div className="p-4 border-b border-ow-border flex items-center gap-2">
-          <Shield className="w-5 h-5 text-ow-accent" />
+          <img src="/logo.png" alt="Overwatch" className="w-5 h-5" />
           <span className="font-semibold text-sm">Overwatch</span>
         </div>
 
         <nav className="flex-1 p-3 space-y-1">
-          {isPlatformAdmin && (
-            <>
-              <NavLink to="/customers" className={linkClass}>
-                <Building2 className="w-4 h-4" />
-                Customers
-              </NavLink>
-              <NavLink to="/dashboard-users" className={linkClass}>
-                <UserCog className="w-4 h-4" />
-                Dashboard Users
-              </NavLink>
-            </>
-          )}
+          <NavLink to="/customers" className={linkClass}>
+            <Building2 className="w-4 h-4" />
+            Customers
+          </NavLink>
+          <NavLink to="/dashboard-users" className={linkClass}>
+            <UserCog className="w-4 h-4" />
+            Dashboard Users
+          </NavLink>
           <NavLink to="/operators" className={linkClass}>
             <Users className="w-4 h-4" />
             Operators

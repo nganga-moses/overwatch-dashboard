@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { useAuth } from '../contexts/AuthContext';
-import { Shield } from 'lucide-react';
 
 export default function LoginView() {
   const { signInWithEmail, signInWithGoogle } = useAuth();
@@ -37,7 +36,7 @@ export default function LoginView() {
     <div className="min-h-screen flex items-center justify-center bg-ow-bg">
       <div className="w-full max-w-sm space-y-8">
         <div className="text-center">
-          <Shield className="w-12 h-12 text-ow-accent mx-auto mb-4" />
+          <img src="/logo.png" alt="Overwatch" className="w-14 h-14 mx-auto mb-4" />
           <h1 className="text-2xl font-bold text-ow-text">Overwatch Dashboard</h1>
           <p className="text-ow-text-muted mt-2 text-sm">Sign in with your administrator account</p>
         </div>
