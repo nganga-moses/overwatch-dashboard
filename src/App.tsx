@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route, Navigate, useNavigate } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { Loader2 } from 'lucide-react';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
 import LoginView from './views/LoginView';
@@ -10,7 +10,6 @@ import WorkstationsView from './views/WorkstationsView';
 
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
   const { user, loading } = useAuth();
-  const navigate = useNavigate();
 
   if (loading) {
     return (
@@ -21,8 +20,7 @@ function ProtectedRoute({ children }: { children: React.ReactNode }) {
   }
 
   if (!user) {
-    navigate('/login', { replace: true });
-    return null;
+    return <Navigate to="/login" replace />;
   }
 
   return <>{children}</>;
@@ -30,7 +28,7 @@ function ProtectedRoute({ children }: { children: React.ReactNode }) {
 
 function AppRouter() {
   const { user, loading } = useAuth();
-  const navigate = useNavigate();
+  const location = useLocation();
 
   if (loading) {
     return (
@@ -40,9 +38,8 @@ function AppRouter() {
     );
   }
 
-  if (user && window.location.pathname === '/login') {
-    navigate('/', { replace: true });
-    return null;
+  if (user && location.pathname === '/login') {
+    return <Navigate to="/" replace />;
   }
 
   return (
