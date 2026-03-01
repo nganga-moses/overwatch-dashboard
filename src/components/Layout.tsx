@@ -16,9 +16,8 @@ export default function Layout() {
     <div className="flex h-screen">
       {/* Sidebar */}
       <aside className="w-56 bg-ow-surface border-r border-ow-border flex flex-col">
-        <div className="p-4 border-b border-ow-border flex items-center gap-2">
-          <img src="/logo.png" alt="Overwatch" className="w-5 h-5" />
-          <span className="font-semibold text-sm">Overwatch</span>
+        <div className="p-4 border-b border-ow-border flex items-center justify-center">
+          <img src="/logo-white.png" alt="Overwatch" className="w-32" />
         </div>
 
         <nav className="flex-1 p-3 space-y-1">

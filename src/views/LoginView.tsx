@@ -36,9 +36,8 @@ export default function LoginView() {
     <div className="min-h-screen flex items-center justify-center bg-ow-bg">
       <div className="w-full max-w-sm space-y-8">
         <div className="text-center">
-          <img src="/logo.png" alt="Overwatch" className="w-14 h-14 mx-auto mb-4" />
-          <h1 className="text-2xl font-bold text-ow-text">Overwatch Dashboard</h1>
-          <p className="text-ow-text-muted mt-2 text-sm">Sign in with your administrator account</p>
+          <img src="/logo-white.png" alt="Overwatch" className="w-48 mx-auto mb-4" />
+          <p className="text-ow-text-muted text-sm">Sign in with your administrator account</p>
         </div>
 
         <div className="bg-ow-surface rounded-lg border border-ow-border p-6 space-y-4">
